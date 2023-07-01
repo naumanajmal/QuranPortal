@@ -1,0 +1,204 @@
+{% load static %}
+{% load custom_filters %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <title>Document</title>
+    <script>jQuery(function ($) {
+
+ 
+
+      $(".sidebar-dropdown > a").click(function() {
+    $(".sidebar-submenu").slideUp(200);
+    if (
+      $(this)
+        .parent()
+        .hasClass("active")
+    ) {
+      $(".sidebar-dropdown").removeClass("active");
+      $(this)
+        .parent()
+        .removeClass("active");
+    } else {
+      $(".sidebar-dropdown").removeClass("active");
+      $(this)
+        .next(".sidebar-submenu")
+        .slideDown(200);
+      $(this)
+        .parent()
+        .addClass("active");
+    }
+  });
+  
+  $("#close-sidebar").click(function() {
+    $(".page-wrapper").removeClass("toggled");
+  });
+  $("#show-sidebar").click(function() {
+    $(".page-wrapper").addClass("toggled");
+  });
+  
+  
+     
+     
+  });
+  
+ 
+  </script>
+
+
+<style>
+
+.arabic-content {
+  white-space: normal;
+}
+</style>
+</head>
+
+
+  <body>
+  <div class="page-wrapper chiller-theme toggled">
+  <a id="show-sidebar" class="btn btn-sm btn-dark" href="#">
+    <i class="fas fa-bars"></i>
+  </a>
+  <nav id="sidebar" class="sidebar-wrapper">
+    <div class="sidebar-content">
+      <div class="sidebar-brand">
+        <a href="#">Quran Majeed</a>
+        <div id="close-sidebar">
+          <i class="fas fa-times"></i>
+        </div>
+      </div>
+
+          <div class="sidebar-menu">
+            <div class="container">
+              <div class="row">
+                <div class="col-md-2 scrollbars">
+                  <div class="sidebar-search">
+                    <div>
+                      <div class="input-group">
+                        <input type="text" class="form-control search-menu" placeholder="Search Surah">
+                        <div class="input-group-append">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+            <ul>
+              {% for surah in surahs %}
+              <li class="sidebar-dropdown">
+                <a href="#">
+                  <span>{{surah.id}}</span>
+                  <span style="padding-left: 1rem;">{{surah.name}}</span>
+                </a>
+              {% endfor %}
+            </ul>
+            </div>
+            <div class="col-md-2 scrollbars">
+              <ul>
+                <div class="sidebar-search">
+                  <div>
+                    <div class="input-group">
+                      <input type="text" class="form-control search-menu" placeholder="Verse">
+                      <div class="input-group-append">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {% for surah in surahs %}
+              <div class="rightside">
+                <li class="sidebar-dropdown">
+                  <a href="#">
+                    <span>{{surah.id}}</span>
+                  </a>
+                  </li>
+                </div>
+                {% endfor %}
+              </ul>
+              </div>
+          </div>
+            </div>
+          </div>
+          <!-- sidebar-menu  -->
+        </div>
+        <!-- sidebar-content  -->  
+      </nav>
+      <!-- sidebar-wrapper  -->
+      <main class="page-content">
+        <div class="container-fluid">
+         <!-- Editable table -->
+ {% for ayat in ayats %}
+ <div class="card">
+     
+     <div class="card-body">
+      {% if ayat.arabic|length != ayat.english|length %}
+        <p>Lengths are not equal for ayat:</p>
+     {% endif %}
+     <td><a href="{% url 'update_row' ayat.id %}">Edit</a></td>
+       <div id="table" class="table-editable  {% if ayat.arabic|any_item_empty %}red-border{% endif %}">
+      
+         <table class="table table-bordered table-responsive-md table-striped text-center">
+           <tbody>
+             <tr>
+                 {% for arabic in ayat.arabic %}
+               <td class="font-style arabic-content" contenteditable="true"><p class="c66" dir="rtl">{{arabic|safe}}</p></td>
+               {% endfor %}
+           
+             </tr>
+             <tr>
+                 {% for english in ayat.english %}
+                 <td class="pt-3-half font_english" contenteditable="true">{{ english }}</td>
+                 {% endfor %}
+                 
+               
+               </tr>
+             <!-- This is our clonable table line -->
+             <tr>
+              
+             </tr>
+            
+           </tbody>
+         </table>
+ 
+         <table class="table table-bordered table-responsive-md table-striped text-center">
+             <tbody>
+                 <tr>
+                     <td contenteditable="true" class="font_english" >{{ayat.translation}}</td>
+                     
+                   </tr>
+             </tbody>
+         </table>
+       </div>
+     </div>
+   </div>
+   <!-- Editable table -->  
+   <div class="btnhandle">
+   <span class="table-remove"
+   ><button type="button " class="btn btn-success btn-rounded btn-sm my-0">
+     Save
+   </button></span
+ >
+ </div> 
+ {% endfor %}
+        </div>
+      </main>
+      <!-- page-content" -->
+    </div>
+    <!-- page-wrapper -->
+      
+        
+  
+ 
+
+    <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+</body>
+</html>
