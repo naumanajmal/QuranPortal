@@ -28,7 +28,7 @@ SECRET_KEY = "django-insecure-a#lqq^of#5el^vz6x6q_3h4o(!kn$5_d4b7c&xjm&bcnd&*-&w
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['https://quranportal-8582a6c2d200.herokuapp.com/', ]
 
 
 # Application definition
